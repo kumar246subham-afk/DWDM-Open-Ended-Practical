@@ -1,155 +1,162 @@
 # 📊 Marwadi University — Department of Computer Engineering
 ## 01CE0527 &ndash; Data Warehousing and Data Mining (DWDM)
-### Open-Ended Practical: Designing Candlesticks using 5-Number Summary
 
 [![Marwadi University](https://img.shields.io/badge/Marwadi_University-NAAC_A%2B-red?style=for-the-badge)](https://www.marwadiuniversity.ac.in/)
 [![Course](https://img.shields.io/badge/Course-01CE0527_DWDM-blue?style=for-the-badge)](https://www.marwadiuniversity.ac.in/)
-[![Python](https://img.shields.io/badge/Python-3.13-yellow?style=for-the-badge&logo=python)](https://python.org)
-[![Pages](https://img.shields.io/badge/Submission_Length-Exactly_6_Pages-success?style=for-the-badge)]()
+[![Student](https://img.shields.io/badge/Student-Subham_Kumar_Keshari-blueviolet?style=for-the-badge)]()
+[![Enrolment](https://img.shields.io/badge/Enrolment-92400103120-orange?style=for-the-badge)]()
+[![Pages](https://img.shields.io/badge/Practical_4_Length-Exactly_6_Pages-success?style=for-the-badge)]()
 [![Status](https://img.shields.io/badge/Verified-100%25_Complete-brightgreen?style=for-the-badge)]()
 
 ---
 
-## 📌 Practical Overview & Problem Statement
-
-> **Problem Statement (As assigned in PDF):**  
-> *"Design candles (daily/weekly/monthly) of any 3 stock market-listed companies using the 5 Number Summary.*  
-> *Submission in (Printed document, Pages: 5-6, Single side Print)"*
-
----
-
-## 🏫 Academic Credentials
+## 🏫 Academic Credentials & Submission Details
 
 - **University**: Marwadi University, Rajkot, Gujarat (NAAC A+ Accredited)
 - **Faculty**: Faculty of Engineering & Technology
 - **Department**: Department of Computer Engineering
-- **Program & Semester**: B.Tech Computer Engineering &bull; Semester 5
 - **Course Code & Title**: `01CE0527` &ndash; Data Warehousing and Data Mining (DWDM)
 - **Subject Faculties**:
   - **Dr. Sivakumar Nadarajan**
   - **Prof. Urvi Dhamecha**
   - **Prof. Sahir Suma**
 - **Head of Department**:
-  - **Dr. Krunal Vaghela** (Dept. Computer Engineering)
-- **Student Name**: **Subham Kumar Keshari**
-- **GitHub Repository**: [kumar246subham-afk/DWDM-Open-Ended-Practical](https://github.com/kumar246subham-afk/DWDM-Open-Ended-Practical)
+  - **Dr. Krunal Vaghela** (Dept. of Computer Engineering)
+- **Full Name**: **Subham Kumar Keshari**
+- **Enrolment Number**: **92400103120**
+- **Format**: Single-Side Print, Page Numbering starting from Page 1 (Page 1 of 6 to Page 6 of 6)
 
 ---
 
-## 📈 Companies Analyzed
+## 📑 Practical 4: Data Preprocessing Using a Sample Dataset
 
-We analyzed three prominent blue-chip equities listed on the **National Stock Exchange (NSE)** representing diverse market sectors:
+### 🎯 Aim
+To apply data preprocessing techniques—including data cleaning, handling missing values, noise smoothing (binning), min-max normalization, categorical encoding (Label & One-Hot Encoding), and feature selection—on a real-world multi-attribute student/customer sample dataset.
 
-| No. | Company Name | Ticker | Sector / Industry | Market Capitalization Class |
-| :---: | :--- | :---: | :--- | :--- |
-| **1** | **Tata Consultancy Services Ltd.** | `NSE: TCS` | Information Technology & Services | Mega Cap (NIFTY 50 Benchmark) |
-| **2** | **Reliance Industries Limited** | `NSE: RELIANCE` | Energy, Petrochemicals & Telecom | Mega Cap (#1 Market Cap in India) |
-| **3** | **Infosys Limited** | `NSE: INFY` | Technology & Consulting | Large Cap (NIFTY IT Volatility Driver) |
-
----
-
-## 📐 Mathematical Formulation of the 5-Number Summary
-
-The Five-Number Summary is a descriptive statistic that summarizes a dataset through five non-parametric order statistics:
-
-1. **Minimum ($Min = x_{(1)}$)**: The lowest transaction price in the given temporal window.
-2. **First Quartile ($Q_1$ / 25th Percentile)**: Value separating the lowest 25% of trading observations.
-3. **Median ($Q_2$ / 50th Percentile)**: The middle value representing the robust central equilibrium price.
-4. **Third Quartile ($Q_3$ / 75th Percentile)**: Value separating the lowest 75% of trading observations.
-5. **Maximum ($Max = x_{(N)}$)**: The highest transaction price in the given temporal window.
-
-### Key Derived Metrics:
-- **Interquartile Range ($IQR$)**:  
-  $$IQR = Q_3 - Q_1$$  
-  *Measures core volatility (middle 50% price dispersion).*
-- **Lower Outlier Boundary ($LF$)**:  
-  $$LF = Q_1 - 1.5 \times IQR$$
-- **Upper Outlier Boundary ($UF$)**:  
-  $$UF = Q_3 + 1.5 \times IQR$$
-- **Bowley Skewness Coefficient ($S_k$)**:  
-  $$S_k = \frac{(Q_3 - Q_2) - (Q_2 - Q_1)}{Q_3 - Q_1}$$
+### 🧠 Learning Outcomes
+1. Understand real-world data quality issues: missing attributes, inconsistent casing, duplicate records, outliers, and untyped features.
+2. Implement statistical imputation: mean/median imputation for continuous variables and mode imputation for categorical attributes.
+3. Apply data smoothing via binning (equal-frequency and bin means) to mitigate variance.
+4. Scale continuous features into a bounded range $[0, 1]$ using Min-Max Normalization.
+5. Encode categorical nominal and ordinal data using Label Encoding and One-Hot Encoding.
+6. Perform feature selection and dimensionality reduction to eliminate zero-variance and redundant identifiers (`StudentID`).
 
 ---
 
-## 🕯️ Candlestick Design from 5-Number Summary
+### 📋 Sample Dataset Before Preprocessing
 
-Unlike traditional financial candlesticks that rely solely on 4 discrete boundary points ($Open, High, Low, Close$), our **Distribution Box-Candles** utilize the full statistical density of price observations:
-
-```
-          Max ────┬──── Upper Extreme Cap
-                  │
-                  │   Upper Whisker (Max - Q3)
-                  │   (Selling pressure / Rejection)
-                  │
-            Q3 ┌──┴──┐
-               │     │
-               │     │   Candle Body (IQR: Q1 to Q3)
-               │     │   (Middle 50% Dense Trading Zone)
-               ├─────┤ ◄ Median (Q2) Line
-               │     │
-               │     │
-            Q1 └──┬──┘
-                  │
-                  │   Lower Whisker (Q1 - Min)
-                  │   (Buying support / Absorption)
-                  │
-          Min ────┴──── Lower Extreme Cap
-```
+| StudentID | Age | City | Score | Grade | PurchasedCourse |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| **S101** | 21 | Mumbai | 85 | B | Yes |
+| **S102** | 23 | Delhi | 92 | A | No |
+| **S103** | `NaN` | Pune | `NaN` | B | Yes |
+| **S104** | 20 | delhi *(lower)* | 78 | C | No |
+| **S105** | 22 | Bangalore | 88 | B | Yes |
+| **S106** | 25 | Pune | 60 | D | No |
+| **S107** | 21 | `NaN` | 95 | A | Yes |
+| **S108** | 23 | Delhi | 92 | A | No *(Duplicate of S102)* |
+| **S109** | 24 | Mumbai | 81 | B | Yes |
+| **S110** | 22 | Ahmedabad | 87 | B | Yes |
 
 ---
 
-## 📊 Summary of Computed Results
+### 🛠️ Data Preprocessing Pipeline & Techniques
 
-### 1. Tata Consultancy Services (TCS)
-- **Daily Candle**: $Min = 4142.50$, $Q_1 = 4168.60$, $Median = 4188.75$, $Q_3 = 4210.25$, $Max = 4225.00$ &bull; **$IQR = ₹41.65$**
-- **Weekly Candle**: $Min = 4095.00$, $Q_1 = 4141.50$, $Median = 4177.50$, $Q_3 = 4218.75$, $Max = 4268.00$ &bull; **$IQR = ₹77.25$**
-- **Monthly Candle**: $Min = 3980.00$, $Q_1 = 4100.00$, $Median = 4192.50$, $Q_3 = 4280.00$, $Max = 4345.00$ &bull; **$IQR = ₹180.00$**
-
-### 2. Reliance Industries Limited (RELIANCE)
-- **Daily Candle**: $Min = 2715.00$, $Q_1 = 2736.75$, $Median = 2754.00$, $Q_3 = 2774.00$, $Max = 2795.50$ &bull; **$IQR = ₹37.25$**
-- **Weekly Candle**: $Min = 2685.00$, $Q_1 = 2726.50$, $Median = 2769.00$, $Q_3 = 2806.25$, $Max = 2830.00$ &bull; **$IQR = ₹79.75$**
-- **Monthly Candle**: $Min = 2620.00$, $Q_1 = 2708.75$, $Median = 2790.00$, $Q_3 = 2853.75$, $Max = 2895.00$ &bull; **$IQR = ₹145.00$**
-
-### 3. Infosys Limited (INFY)
-- **Daily Candle**: $Min = 1855.00$, $Q_1 = 1872.00$, $Median = 1891.75$, $Q_3 = 1908.00$, $Max = 1922.00$ &bull; **$IQR = ₹36.00$**
-- **Weekly Candle**: $Min = 1830.00$, $Q_1 = 1871.50$, $Median = 1903.50$, $Q_3 = 1939.00$, $Max = 1958.00$ &bull; **$IQR = ₹67.50$**
-- **Monthly Candle**: $Min = 1785.00$, $Q_1 = 1861.25$, $Median = 1925.00$, $Q_3 = 1980.00$, $Max = 2010.00$ &bull; **$IQR = ₹118.75$**
-
----
-
-## 📑 Structure of the 6-Page Submission Document
-
-The generated PDF matches the strict requirement: **"Submission in (Printed document, Pages: 5-6, Single side Print)"**:
-
-- **Page 1**: Official Marwadi University Header, Academic Metadata, Introduction to 5-Number Summary in DWDM, Mathematical Formulations & Anatomical Mapping.
-- **Page 2**: Multi-Timeframe Analytical Framework (Daily, Weekly, Monthly), Company Profiles, Data ETL Pipeline & Candle Anatomy Table.
-- **Page 3**: Company 1 &ndash; **Tata Consultancy Services (TCS)** (Observation Data, Calculations, 3 Multi-Timeframe Candle Plots, Analytical Discussion).
-- **Page 4**: Company 2 &ndash; **Reliance Industries Limited (RELIANCE)** (Observation Data, Calculations, 3 Multi-Timeframe Candle Plots, Analytical Discussion).
-- **Page 5**: Company 3 &ndash; **Infosys Limited (INFY)** (Observation Data, Calculations, 3 Multi-Timeframe Candle Plots, Analytical Discussion).
-- **Page 6**: Cross-Company Volatility Synthesis, Comparison Bar Chart, Python Implementation Snippet, Key Findings, Conclusion, References, and Official Faculty & HOD Sign-off Block.
+1. **Duplicate Detection & Removal**:
+   - `S108` was an exact duplicate of `S102` (Age=23, City=Delhi, Score=92, Grade=A, PurchasedCourse=No). Dropped to maintain sample independence.
+2. **Handling Missing Values**:
+   - Missing `Age` in `S103` imputed using median age: $\text{Median}(\text{Age}) = 22.0$.
+   - Missing `Score` in `S103` imputed using mean score: $\text{Mean}(\text{Score}) = 84.6 \approx 85.0$.
+   - Missing `City` in `S107` imputed using statistical mode: $\text{Mode}(\text{City}) = \text{"Delhi"}$.
+3. **Data Cleaning & Standardization**:
+   - Casing inconsistency in `S104` (`"delhi"` $\rightarrow$ `"Delhi"`). Standardized strings across the dataset.
+4. **Data Smoothing (Binning)**:
+   - Equal-frequency binning applied to `Score` with 3 bins (Low, Medium, High) and smoothing by bin means.
+5. **Min-Max Normalization**:
+   $$v' = \frac{v - \min(A)}{\max(A) - \min(A)}$$
+   - Mapped `Age` ($\min=20, \max=25$) and `Score` ($\min=60, \max=95$) strictly into $[0, 1]$.
+6. **Categorical Encoding**:
+   - **Label Encoding**: Ordinal Grade mapping (`D: 0, C: 1, B: 2, A: 3`).
+   - **One-Hot Encoding**: Nominal City mapping (`City_Ahmedabad`, `City_Bangalore`, `City_Delhi`, `City_Mumbai`, `City_Pune`) and Target (`PurchasedCourse_Yes`).
+7. **Feature Selection**:
+   - Dropped non-informative identifier attribute `StudentID`.
 
 ---
 
-## 🚀 How to Run the Code Locally
+### 📊 Cleaned & Normalized Dataset
 
-```bash
-# 1. Clone repository
-git clone https://github.com/kumar246subham-afk/DWDM-Open-Ended-Practical.git
-cd DWDM-Open-Ended-Practical
+| StudentID | Age (Raw) | Age (Norm) | City | Score (Raw) | Score (Norm) | Grade | PurchasedCourse |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **S101** | 21 | 0.20 | Mumbai | 85 | 0.714 | B | Yes |
+| **S102** | 23 | 0.60 | Delhi | 92 | 0.914 | A | No |
+| **S103** | 22 *(Imp)* | 0.40 | Pune | 85 *(Imp)* | 0.714 | B | Yes |
+| **S104** | 20 | 0.00 | Delhi | 78 | 0.514 | C | No |
+| **S105** | 22 | 0.40 | Bangalore | 88 | 0.800 | B | Yes |
+| **S106** | 25 | 1.00 | Pune | 60 | 0.000 | D | No |
+| **S107** | 21 | 0.20 | Delhi *(Imp)* | 95 | 1.000 | A | Yes |
+| **S109** | 24 | 0.80 | Mumbai | 81 | 0.600 | B | Yes |
+| **S110** | 22 | 0.40 | Ahmedabad | 87 | 0.771 | B | Yes |
 
-# 2. Run Python scripts
-python generate_charts.py
-python render_pdf.py
+---
 
-# 3. View the generated PDF / HTML
-start DWDM_Open_Ended_Practical_5NumberSummary.pdf
+### 🔍 Special Deep-Dive: S103 Multi-Step Transformation
+
+| Preprocessing Stage | Age Value | Score Value | Transformation Description |
+| :--- | :---: | :---: | :--- |
+| **1. Raw Input State** | `NaN` | `NaN` | Missing both numerical attributes upon ingestion. |
+| **2. Missing Imputation** | `22.0` | `84.6` | Imputed using Median (Age) and Mean (Score). |
+| **3. Binning & Smoothing**| `22.0` | `84.6` | Assigned to Medium Bin $[78, 88]$. |
+| **4. Min-Max Normalization**| `0.400` | `0.714` | Normalized: $\frac{22-20}{25-20}=0.400$, $\frac{85-60}{95-60}=0.714$. |
+
+---
+
+## 📂 Project Repository Structure
+
+```text
+├── DWDM_Practical_4_Data_Preprocessing.pdf    # Complete 6-Page Printable Report (Official Format)
+├── DWDM_Practical_4_Data_Preprocessing.html   # Source HTML Template with Print Stylesheet
+├── build_practical4_report.py                 # Edge Headless PDF Compiler Script
+├── generate_practical4.py                     # Preprocessing Pipeline & Plot Generator
+├── check_pages.py                             # Automated PDF Page Count Verifier (Strict 6 Pages)
+├── charts/                                    # Generated Dark-Themed IDE Execution Code Screenshots
+│   ├── screenshot_1.png                       # Cleaning & Imputation Code Screenshot
+│   ├── screenshot_2.png                       # Normalization & Encoding Code Screenshot
+│   └── screenshot_3.png                       # Feature Selection & Modeling Pipeline Screenshot
+├── DWDM_Open_Ended_Practical_Report.html      # Open-Ended Practical: 5-Number Summary Candlesticks
+├── DWDM_Open_Ended_Practical_Report.pdf       # Open-Ended Practical Printable PDF
+└── README.md                                  # Repository Documentation
 ```
 
 ---
 
-## 👨‍💻 Author
+## 🚀 How to Run & Verify
 
-- **Student**: **Subham Kumar Keshari**
-- **Degree**: B.Tech Computer Engineering (Semester 5)
-- **Institution**: Marwadi University, Rajkot, Gujarat
-- **Subject**: 01CE0527 &ndash; Data Warehousing and Data Mining (DWDM)
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/kumar246subham-afk/DWDM-Open-Ended-Practical.git
+   cd DWDM-Open-Ended-Practical
+   ```
+
+2. **Generate Charts and Screenshots**:
+   ```bash
+   python generate_practical4.py
+   ```
+
+3. **Compile Practical 4 PDF**:
+   ```bash
+   python build_practical4_report.py
+   ```
+
+4. **Verify 6-Page PDF**:
+   ```bash
+   python check_pages.py
+   # Output: Total Pages in PDF: 6
+   ```
+
+---
+
+## 👨‍🎓 Submitted By
+- **Name**: **Subham Kumar Keshari**
+- **Enrolment Number**: **92400103120**
+- **Department**: Department of Computer Engineering
+- **Institute**: Faculty of Engineering & Technology, Marwadi University
